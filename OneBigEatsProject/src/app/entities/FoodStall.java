@@ -41,6 +41,9 @@ public class FoodStall
 	@OneToMany(mappedBy = "foodStall", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Items> items;
 	
+	@OneToMany(mappedBy = "foodStall", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Purchase> purchases;
+	
 	// Default constructor
     public FoodStall() {
         // Default constructor is needed by Hibernate
@@ -111,16 +114,24 @@ public class FoodStall
 	public void setItems(List<Items> items) {
 		this.items = items;
 	}
+	
+
+	public List<Purchase> getPurchases() {
+		return purchases;
+	}
+
+	public void setPurchases(List<Purchase> purchases) {
+		this.purchases = purchases;
+	}
 
 	@Override
 	public String toString() {
 		return "FoodStall [foodStallID=" + foodStallID + ", name=" + name + ", location=" + location
-				+ ", averageReview=" + averageReview + ", user=" + user + ", items=" + items + "]";
+				+ ", averageReview=" + averageReview + ", user=" + user + ", items=" + items + ", purchases="
+				+ purchases + "]";
 	}
-	
-	
-	
-	
 
+	
+	
 
 }
