@@ -1,6 +1,9 @@
 package app.entities;
 
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -34,6 +38,9 @@ public class FoodStall
     @JoinColumn(name = "username", referencedColumnName = "username")
     private User user;
 	
+	@OneToMany(mappedBy = "foodStall", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Items> items;
+	
 	// Default constructor
     public FoodStall() {
         // Default constructor is needed by Hibernate
@@ -53,6 +60,9 @@ public class FoodStall
 		this.averageReview = averageReview;
 		this.user = username;
 	}
+
+	
+	
 
 	public Long getFoodStallID() {
 		return foodStallID;
@@ -94,11 +104,20 @@ public class FoodStall
 		this.user = user;
 	}
 
+	public List<Items> getItems() {
+		return items;
+	}
+
+	public void setItems(List<Items> items) {
+		this.items = items;
+	}
+
 	@Override
 	public String toString() {
 		return "FoodStall [foodStallID=" + foodStallID + ", name=" + name + ", location=" + location
-				+ ", averageReview=" + averageReview + ", user=" + user + "]";
+				+ ", averageReview=" + averageReview + ", user=" + user + ", items=" + items + "]";
 	}
+	
 	
 	
 	
