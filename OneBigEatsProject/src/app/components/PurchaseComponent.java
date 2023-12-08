@@ -86,7 +86,40 @@ public class PurchaseComponent {
         } else {
             return "Item not found.";
         }
-
     	
     }
+    
+    //added this -Mica
+    public String editItemPurchase(PurchaseRequestDto requestDto) {
+        // Retrieve details from PurchaseRequestDto
+        String itemName = requestDto.getItemName();
+        int newQuantity = requestDto.getQuantity();
+        int purchaseId = requestDto.getPurchaseId();
+
+        // Find purchase
+        Purchase purchase = purchaseRepository.findById(purchaseId);
+        if (purchase == null) {
+            return "Purchase not found.";
+        }
+
+        // Find purchase quantity
+        PurchaseQuantity purchaseQuantity = purchaseQuantityRepository.findByPurchaseAndItemName(purchase, itemName);
+        if (purchaseQuantity == null) {
+            return "Item not found in this purchase.";
+        }
+
+        // Update quantity and update stock
+        int oldQuantity = purchaseQuantity.getQuantity();
+        purchaseQuantity.setQuantity(newQuantity);
+        purchaseQuantityRepository.save(purchaseQuantity);
+
+        // Update stock in items
+        Items item = purchaseQuantity.getItems();
+        int updatedStock = item.getStock() - (newQuantity - oldQuantity);
+        item.setStock(updatedStock);
+        itemsRepository.save(item);
+
+        return "Item quantity updated successfully.";
+    }
+
 }
