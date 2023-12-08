@@ -27,14 +27,16 @@ public class PurchaseController {
     public String addItemPurchase(PurchaseRequestDto requestDto) {
         return purchaseComponent.addItemPurchase(requestDto);
     }
-    
-	//@POST
-	//@Path("/removeitem")
-	//@Consumes(MediaType.APPLICATION_JSON)
-	//@Produces(MediaType.APPLICATION_JSON)
-	//public String editItemPurchase() {
-	//    return purchaseComponent.orderMade();
-	//}
+	
+	//added this -Mica
+	@POST
+	@Path("/edititem")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String editItemPurchase(PurchaseRequestDto requestDto) {
+		return purchaseComponent.editItemPurchase(requestDto);
+	}
+	
     
 	//@POST
 	//@Path("/removeitem")
