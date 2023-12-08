@@ -121,5 +121,38 @@ public class PurchaseComponent {
 
         return "Item quantity updated successfully.";
     }
+    
+  //added this -Mica
+    public String removeItemPurchase(PurchaseRequestDto requestDto) {
+        // Retrieve details from PurchaseRequestDto
+        String itemName = requestDto.getItemName();
+        int purchaseId = requestDto.getPurchaseId();
+
+        // Find purchase
+        Purchase purchase = purchaseRepository.findById(purchaseId);
+        if (purchase == null) {
+            return "Purchase not found.";
+        }
+
+        // Find purchase quantity
+        PurchaseQuantity purchaseQuantity = purchaseQuantityRepository.findByPurchaseAndItemName(purchase, itemName);
+        if (purchaseQuantity == null) {
+            return "Item not found in this purchase.";
+        }
+
+        // Update stock in items
+        Items item = purchaseQuantity.getItems();
+        int updatedStock = item.getStock() + purchaseQuantity.getQuantity();
+        item.setStock(updatedStock);
+        itemsRepository.save(item);
+
+        // Delete purchase quantity and update purchase total cost
+        purchaseQuantityRepository.delete(purchaseQuantity);
+        purchase.setTotalPrice(purchase.getTotalPrice() - (purchaseQuantity.getQuantity() * item.getPrice()));
+        purchaseRepository.save(purchase);
+
+        return "Item removed from purchase successfully.";
+    }
+
 
 }

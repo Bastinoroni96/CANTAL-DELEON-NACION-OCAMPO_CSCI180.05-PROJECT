@@ -37,14 +37,16 @@ public class PurchaseController {
 		return purchaseComponent.editItemPurchase(requestDto);
 	}
 	
-    
-	//@POST
-	//@Path("/removeitem")
-	//@Consumes(MediaType.APPLICATION_JSON)
-	//@Produces(MediaType.APPLICATION_JSON)
-	//public String removeItemPurchase() {
-	//    return purchaseComponent.orderMade();
-	//}
+	//added this -Mica
+	@POST
+	@Path("/removeitem")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String removeItemPurchase(PurchaseRequestDto requestDto) {
+		return purchaseComponent.removeItemPurchase(requestDto);
+	}
+	
+
     
 	//@POST
 	//@Path("/payment")
