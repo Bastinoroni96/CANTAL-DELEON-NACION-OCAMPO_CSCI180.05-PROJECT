@@ -30,6 +30,7 @@ public class PurchaseQuantity
 	
 	@NotNull
 	@Min(1)
+	@Column
     private int quantity;
 	
 	@Column

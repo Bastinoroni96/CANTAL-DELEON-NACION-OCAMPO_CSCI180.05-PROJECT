@@ -34,7 +34,7 @@ public class Purchase
     private FoodStall foodStall;
 	
 	@NotNull
-	@Pattern(regexp = "(?i)(\\W|^)(cash|gcash|maya|)(\\W|$)",  message = "must be cat or dog")
+	@Pattern(regexp = "(?i)(\\W|^)(cash|gcash|maya|)(\\W|$)",  message = "Must be Cash, Gcash, Maya")
 	@Column
 	private String modeOfPayment;
 	
