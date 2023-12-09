@@ -111,12 +111,30 @@ public class Purchase
 	public void setPurchaseDate(LocalDate purchaseDate) {
 		this.purchaseDate = purchaseDate;
 	}
+	
+	
+
+	public List<PurchaseQuantity> getPurchaseQuantities() {
+		return purchaseQuantities;
+	}
+
+	public void setPurchaseQuantities(List<PurchaseQuantity> purchaseQuantities) {
+		this.purchaseQuantities = purchaseQuantities;
+	}
+
+	public void updateTotalPrice(List<PurchaseQuantity> purchaseQuantities) {
+        double totalAmount = purchaseQuantities.stream()
+            .mapToDouble(PurchaseQuantity::getAmount)
+            .sum();
+        this.totalPrice = totalAmount;
+    }
 
 	@Override
 	public String toString() {
 		return "Purchase [purchaseId=" + purchaseId + ", user=" + user + ", foodStall=" + foodStall + ", modeOfPayment="
 				+ modeOfPayment + ", totalPrice=" + totalPrice + ", purchaseDate=" + purchaseDate + "]";
 	}
+
 
 	
 }

@@ -89,6 +89,10 @@ public class PurchaseQuantity
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
+	
+	public void calculateAndSetAmount(double itemPrice) {
+        this.amount = this.quantity * itemPrice;
+    }
 
 	@Override
 	public String toString() {
