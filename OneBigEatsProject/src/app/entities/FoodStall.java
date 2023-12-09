@@ -1,6 +1,7 @@
 package app.entities;
 
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -15,7 +16,7 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class FoodStall  
+public class FoodStall implements Serializable  
 {
 	
 	@Id
