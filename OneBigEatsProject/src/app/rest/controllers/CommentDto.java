@@ -2,16 +2,16 @@ package app.rest.controllers;
 
 public class CommentDto
 {
-	private int commentId;
+	private Long commentId;
 	private String username;
 	private String commentText;
 	private int rating;
 	private String foodStallName;
 	
-	public int getCommentId() {
+	public Long getCommentId() {
 		return commentId;
 	}
-	public void setCommentId(int commentId) {
+	public void setCommentId(Long commentId) {
 		this.commentId = commentId;
 	}
 	public String getUsername() {
@@ -43,6 +43,8 @@ public class CommentDto
 		return "CommentDto [commentId=" + commentId + ", username=" + username + ", commentText=" + commentText
 				+ ", rating=" + rating + ", foodStallName=" + foodStallName + "]";
 	}
+	
+	
 	
 	
 }
