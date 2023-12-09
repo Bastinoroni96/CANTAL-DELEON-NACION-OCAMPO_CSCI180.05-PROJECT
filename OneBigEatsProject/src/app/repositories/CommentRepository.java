@@ -6,6 +6,6 @@ import app.entities.Comment;
 
 public interface CommentRepository extends JpaRepository<Comment, Long>
 {
-	Comment findByCommentId(int commentId);
+	Comment findByCommentId(Long commentId);
 	Comment findByFoodStall(String foodStall);
 }

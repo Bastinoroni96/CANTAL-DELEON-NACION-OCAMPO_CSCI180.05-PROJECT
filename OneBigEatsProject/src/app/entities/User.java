@@ -29,6 +29,9 @@ public class User
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Purchase> purchases;
 	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> Comment;
+	
 
 	// Default constructor
     public User() {
@@ -49,52 +52,77 @@ public class User
         this.name = name;
     }
 
+
 	public String getUsername() {
 		return username;
 	}
+
 
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
+
 	public String getPassword() {
 		return password;
 	}
+
 
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
+
 	public String getName() {
 		return name;
 	}
 
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public List<FoodStall> getFoodStalls() {
-        return foodStalls;
-    }
-	
-	public void setFoodStalls(List<FoodStall> foodStalls) {
-        this.foodStalls = foodStalls;
-    }
 
-    public List<Purchase> getPurchases() {
+
+	public List<FoodStall> getFoodStalls() {
+		return foodStalls;
+	}
+
+
+	public void setFoodStalls(List<FoodStall> foodStalls) {
+		this.foodStalls = foodStalls;
+	}
+
+
+	public List<Purchase> getPurchases() {
 		return purchases;
 	}
+
 
 	public void setPurchases(List<Purchase> purchases) {
 		this.purchases = purchases;
 	}
 
 
+	public List<Comment> getComment() {
+		return Comment;
+	}
+
+
+	public void setComment(List<Comment> comment) {
+		Comment = comment;
+	}
+
+
 	@Override
 	public String toString() {
 		return "User [username=" + username + ", password=" + password + ", name=" + name + ", foodStalls=" + foodStalls
-				+ ", purchases=" + purchases + "]";
+				+ ", purchases=" + purchases + ", Comment=" + Comment + "]";
 	}
+
+	
+
+
+	
 
 	
 

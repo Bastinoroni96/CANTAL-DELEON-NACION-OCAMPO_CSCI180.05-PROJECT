@@ -50,23 +50,31 @@ public class CommentComponent {
         
         comment = commentRepo.save(comment);
         
+        // Update the average review for the food stall after saving the comment
+        foodStall.updateAverageReview();
+        foodStallRepo.save(foodStall);
+        
         return "Commment has been posted for: " + foodStall.getName();
 	}
 	
-	public String deleteCommentReview(CommentDto commentDto)
-	{
-		int commentId = commentDto.getCommentId();
-		
-		Comment comment = commentRepo.findByCommentId(commentId);
-		if (comment != null)
-		{
-			commentRepo.delete(comment);
-			return "Comment deleted.";
-		}
-		else
-		{
-			return "No comment deleted because comment was not found.";
-		}
+	public String deleteCommentReview(CommentDto commentDto) {
+	    Long commentId = commentDto.getCommentId();
+
+	    Comment comment = commentRepo.findByCommentId(commentId);
+	    if (comment != null) {
+	        FoodStall foodStall = comment.getFoodStall(); // Get the associated food stall
+
+	        commentRepo.delete(comment); // Delete the comment
+
+	        // Update the average review for the food stall after deleting the comment
+	        foodStall.updateAverageReview();
+	        foodStallRepo.save(foodStall);
+
+	        return "Comment deleted.";
+	    } else {
+	        return "No comment deleted because comment was not found.";
+	    }
 	}
+
 	
 }
