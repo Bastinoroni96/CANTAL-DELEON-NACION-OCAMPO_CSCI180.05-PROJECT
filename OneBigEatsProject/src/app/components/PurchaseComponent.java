@@ -111,17 +111,24 @@ public class PurchaseComponent {
         Items item = itemsRepository.findByItem(itemName);
 
         if (item != null) {
+            double itemPrice = item.getPrice();
+            
             PurchaseQuantity purchaseQuantity = new PurchaseQuantity();
             purchaseQuantity.setPurchase(existingPurchase);
             purchaseQuantity.setItems(item);
             purchaseQuantity.setQuantity(quantity);
-            // Set other properties for PurchaseQuantity as required
+            purchaseQuantity.calculateAndSetAmount(itemPrice); // Calculate and set the amount
 
             purchaseQuantityRepository.save(purchaseQuantity);
 
             int updatedStock = item.getStock() - quantity;
             item.setStock(updatedStock);
             itemsRepository.save(item);
+            
+            // Update total price in Purchase entity
+            List<PurchaseQuantity> purchaseQuantities = existingPurchase.getPurchaseQuantities();
+            existingPurchase.updateTotalPrice(purchaseQuantities);
+            purchaseRepository.save(existingPurchase);
 
             return "Item added to purchase successfully.";
         } else {
@@ -133,89 +140,85 @@ public class PurchaseComponent {
     //added this -Mica
     @Transactional
     public String editItemPurchase(PurchaseRequestDto requestDto) {
-        // Retrieve details from PurchaseRequestDto
         String itemName = requestDto.getItemName();
         int newQuantity = requestDto.getQuantity();
         Long purchaseId = requestDto.getPurchaseId();
 
-        // Find purchase
         Optional<Purchase> optionalPurchase = purchaseRepository.findById(purchaseId);
         if (!optionalPurchase.isPresent()) {
             return "Purchase not found.";
         }
 
         Purchase purchase = optionalPurchase.get();
-
-        // Find item by name
         Items item = itemsRepository.findByItem(itemName);
+
         if (item == null) {
             return "Item not found.";
         }
 
-        // Find purchase quantity by purchase and item
         PurchaseQuantity purchaseQuantity = purchaseQuantityRepository.findByPurchaseAndItems(purchase, item);
+
         if (purchaseQuantity == null) {
             return "Item not found in this purchase.";
         }
 
-        // Update quantity and update stock
         int oldQuantity = purchaseQuantity.getQuantity();
         purchaseQuantity.setQuantity(newQuantity);
         purchaseQuantityRepository.save(purchaseQuantity);
 
-        // Update stock in items
         int updatedStock = item.getStock() - (newQuantity - oldQuantity);
         item.setStock(updatedStock);
         itemsRepository.save(item);
+        
+        // Update total price in Purchase entity
+        List<PurchaseQuantity> purchaseQuantities = purchase.getPurchaseQuantities();
+        purchase.updateTotalPrice(purchaseQuantities);
+        purchaseRepository.save(purchase);
 
         return "Item quantity updated successfully.";
     }
+
 
 
     
   //added this -Mica
     @Transactional
     public String removeItemPurchase(PurchaseRequestDto requestDto) {
-        // Retrieve details from PurchaseRequestDto
         String itemName = requestDto.getItemName();
         Long purchaseId = requestDto.getPurchaseId();
 
-        // Find purchase (using Optional)
         Optional<Purchase> optionalPurchase = purchaseRepository.findById(purchaseId);
         if (!optionalPurchase.isPresent()) {
             return "Purchase not found.";
         }
 
         Purchase purchase = optionalPurchase.get();
-
-        // Find item by name
         Items item = itemsRepository.findByItem(itemName);
+
         if (item == null) {
             return "Item not found.";
         }
 
-        // Find purchase quantity by purchase and item
         PurchaseQuantity purchaseQuantity = purchaseQuantityRepository.findByPurchaseAndItems(purchase, item);
+
         if (purchaseQuantity == null) {
             return "Item not found in this purchase.";
         }
 
-        // Update stock in items
         int updatedStock = item.getStock() + purchaseQuantity.getQuantity();
         item.setStock(updatedStock);
         itemsRepository.save(item);
 
-        // Update purchase total cost
-        double itemPrice = item.getPrice(); // Assuming price is retrieved from the item
+        double itemPrice = item.getPrice();
         double totalPrice = purchase.getTotalPrice() - (purchaseQuantity.getQuantity() * itemPrice);
         purchase.setTotalPrice(totalPrice);
         purchaseRepository.save(purchase);
 
-        // Delete purchase quantity
         purchaseQuantityRepository.delete(purchaseQuantity);
 
         return "Item removed from purchase successfully.";
     }
+
 
 
 
