@@ -41,10 +41,11 @@ public class Purchase
 	@NotNull
 	@Column
 	private Double totalPrice;
-	
+
 	@NotNull
 	@Column
 	private LocalDate purchaseDate;
+
 	
 	@OneToMany(mappedBy = "purchase")
     private List<PurchaseQuantity> purchaseQuantities;

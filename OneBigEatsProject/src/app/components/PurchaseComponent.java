@@ -71,8 +71,11 @@ public class PurchaseComponent {
             purchase.setUser(user);
             purchase.setFoodStall(foodStall);
             purchase.setModeOfPayment(modeOfPayment);
+            purchase.setTotalPrice(0.0);
+            purchase.setPurchaseDate(LocalDate.now()); // Set purchase date to today
+
             // Set other properties in Purchase object based on requestDto
-            // For example, purchase date, any other relevant details
+            // For example, total price, quantities, etc.
 
             purchase = purchaseRepository.save(purchase);
 
@@ -82,6 +85,7 @@ public class PurchaseComponent {
             return "Failed to create purchase.";
         }
     }
+
 
     @Transactional
     public String addItemToPurchase(PurchaseRequestDto requestDto) {
@@ -102,7 +106,7 @@ public class PurchaseComponent {
         }
 
         // Retrieve the existing purchase for the user and food stall
-        Purchase existingPurchase = purchaseRepository.findByUserAndFoodStallAndModeOfPayment(user, foodStall, null);
+        Purchase existingPurchase = purchaseRepository.findByUserAndFoodStall(user, foodStall);
 
         if (existingPurchase == null) {
             return "No existing purchase found.";
@@ -163,13 +167,15 @@ public class PurchaseComponent {
         }
 
         int oldQuantity = purchaseQuantity.getQuantity();
+        double itemPrice = item.getPrice();
         purchaseQuantity.setQuantity(newQuantity);
+        purchaseQuantity.calculateAndSetAmount(itemPrice);
         purchaseQuantityRepository.save(purchaseQuantity);
 
         int updatedStock = item.getStock() - (newQuantity - oldQuantity);
         item.setStock(updatedStock);
         itemsRepository.save(item);
-        
+
         // Update total price in Purchase entity
         List<PurchaseQuantity> purchaseQuantities = purchase.getPurchaseQuantities();
         purchase.updateTotalPrice(purchaseQuantities);
@@ -177,6 +183,7 @@ public class PurchaseComponent {
 
         return "Item quantity updated successfully.";
     }
+
 
 
 

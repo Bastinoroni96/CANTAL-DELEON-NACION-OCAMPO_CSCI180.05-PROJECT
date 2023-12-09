@@ -10,6 +10,6 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long>
 {
 	Purchase findByPurchaseId(Long purchaseId);
 
-	Purchase findByUserAndFoodStallAndModeOfPayment(User user, FoodStall foodStall, Object object);
+	Purchase findByUserAndFoodStall(User user, FoodStall foodStall);
 
 }

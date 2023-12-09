@@ -45,6 +45,10 @@ public class PurchaseRequestDto {
 		this.purchaseId = purchaseId;
 	}
 	
+	// Default constructor
+    public PurchaseRequestDto() {
+    }
+	
 	public PurchaseRequestDto(String itemName, int quantity, String modeOfPayment, String username,
 			String foodStallName, Long purchaseId) {
 		super();
