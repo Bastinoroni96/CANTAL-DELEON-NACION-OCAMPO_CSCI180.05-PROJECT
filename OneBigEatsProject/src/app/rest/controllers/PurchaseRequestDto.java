@@ -6,6 +6,7 @@ public class PurchaseRequestDto {
     private String modeOfPayment;
     private String username;
     private String foodStallName;
+    private Long purchaseId;
     
 	public String getItemName() {
 		return itemName;
@@ -37,24 +38,29 @@ public class PurchaseRequestDto {
 	public void setFoodStallName(String foodStallName) {
 		this.foodStallName = foodStallName;
 	}
+	public Long getPurchaseId() {
+		return purchaseId;
+	}
+	public void setPurchaseId(Long purchaseId) {
+		this.purchaseId = purchaseId;
+	}
+	
 	public PurchaseRequestDto(String itemName, int quantity, String modeOfPayment, String username,
-			String foodStallName) {
+			String foodStallName, Long purchaseId) {
 		super();
 		this.itemName = itemName;
 		this.quantity = quantity;
 		this.modeOfPayment = modeOfPayment;
 		this.username = username;
 		this.foodStallName = foodStallName;
+		this.purchaseId = purchaseId;
 	}
 	@Override
 	public String toString() {
 		return "PurchaseRequestDto [itemName=" + itemName + ", quantity=" + quantity + ", modeOfPayment="
-				+ modeOfPayment + ", username=" + username + ", foodStallName=" + foodStallName + "]";
+				+ modeOfPayment + ", username=" + username + ", foodStallName=" + foodStallName + ", purchaseId="
+				+ purchaseId + "]";
 	}
-    
-	
-
-	
     
     
 

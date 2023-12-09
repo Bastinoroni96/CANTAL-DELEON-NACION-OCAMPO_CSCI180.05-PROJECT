@@ -25,7 +25,7 @@ public class PurchaseController {
 	@Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public String addItemPurchase(PurchaseRequestDto requestDto) {
-        return purchaseComponent.addItemPurchase(requestDto);
+        return purchaseComponent.addItemToPurchase(requestDto);
     }
 	
 	//added this -Mica
@@ -48,11 +48,11 @@ public class PurchaseController {
 	
 
     
-	//@POST
-	//@Path("/payment")
-	//@Consumes(MediaType.APPLICATION_JSON)
-	//@Produces(MediaType.APPLICATION_JSON)
-	//public String confirmPayment() {
-	//    return purchaseComponent.orderMade();
-	//}
+	@POST
+	@Path("/startpurchase")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String startPayment(PurchaseRequestDto requestDto) {
+	    return purchaseComponent.startPayment(requestDto);
+	}
 }
